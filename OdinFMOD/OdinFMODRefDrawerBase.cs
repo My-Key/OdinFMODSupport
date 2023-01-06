@@ -28,9 +28,10 @@ namespace OdinFMOD
 			if (editorRef != null)
 			{
 				var iconRect = rect;
-				iconRect.xMin += GUIHelper.ActualLabelWidth;
+				iconRect.xMin += GUIHelper.BetterLabelWidth;
 				iconRect.width = 25;
-				EditorGUI.LabelField(iconRect, new GUIContent(GetIcon(editorRef)), OdinEventReferenceDrawer.m_iconStyle);
+				iconRect.height = 18;
+				GUI.DrawTexture(iconRect, GetIcon(editorRef), ScaleMode.ScaleToFit);
 			}
 
 			var dropRect = rect;

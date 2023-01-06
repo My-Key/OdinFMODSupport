@@ -27,7 +27,6 @@ namespace OdinFMOD
 
 		public static GUIStyle m_buttonStyle;
 		public static GUIStyle m_textStyle;
-		public static GUIStyle m_iconStyle;
 
 		private InspectorProperty m_path;
 
@@ -53,16 +52,6 @@ namespace OdinFMOD
 			{
 				m_textStyle = new GUIStyle(GUI.skin.textField);
 				m_textStyle.padding.left = 25;
-			}
-
-			if (m_iconStyle == null)
-			{
-				m_iconStyle = new GUIStyle(GUI.skin.label);
-				m_iconStyle.padding.top = 1;
-				m_iconStyle.padding.bottom = 1;
-				m_iconStyle.padding.left = 1;
-				m_iconStyle.padding.right = 1;
-				m_iconStyle.alignment = TextAnchor.MiddleCenter;
 			}
 		}
 
@@ -141,7 +130,8 @@ namespace OdinFMOD
 			{
 				var iconRect = rect;
 				iconRect.width = 25;
-				EditorGUI.LabelField(iconRect, new GUIContent(GetIcon(editorEventRef)), m_iconStyle);
+				iconRect.height = 18;
+				GUI.DrawTexture(iconRect, GetIcon(editorEventRef), ScaleMode.ScaleToFit);
 			}
 
 			var dropRect = rect;
