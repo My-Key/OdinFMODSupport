@@ -2,7 +2,7 @@
 
 ## Basic
 
-Simple workaround to make FMOD fields and attributes correctly detect and save changes. Simple and **FMOD update**-proof
+Simple workaround to make FMOD fields and attributes correctly detect and save changesm, for example in dictionary. Simple and **FMOD update**-proof
 
 ### How to install
 
