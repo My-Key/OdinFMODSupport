@@ -2,7 +2,7 @@
 
 ## Basic
 
-Simple workaround to make FMOD fields and attributes correctly detect and save changesm, for example in dictionary. Simple and **FMOD update**-proof
+Simple workaround to make FMOD fields and attributes correctly detect and save changes, for example in dictionary. Simple and **FMOD update**-proof
 
 ### How to install
 
@@ -10,7 +10,7 @@ Put `OdinFMODSupport.cs`, from Basic folder, into `Editor` folder in Unity proje
 
 ## OdinFMOD
 
-Recreation of FMOD property and attribute drawers in Odin Inspector. Also added validator for `EventReference` class.
+Recreation of FMOD property and attribute drawers in Odin Inspector. Also added validator for `EventReference` class to replicate its original builtin validation
 
 :warning: As it is a recreation, it can break after a FMOD update
 
