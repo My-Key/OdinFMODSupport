@@ -33,6 +33,7 @@ namespace OdinFMOD
 		private string m_name;
 		private string m_folder = "/";
 		private int m_bank;
+		private bool m_isConnected;
 		
 		private List<BankEntry> m_banks;
 
@@ -41,6 +42,10 @@ namespace OdinFMOD
 		[Sirenix.OdinInspector.OnInspectorInit]
 		protected void Initialize()
 		{
+			m_isConnected = EditorUtils.IsConnectedToStudio();
+			if (!m_isConnected)
+				return;
+			
 			var rootGuid = EditorUtils.GetScriptOutput("studio.project.workspace.masterEventFolder.id");
 			m_rootFolder = new FolderEntry();
 			m_rootFolder.guid = rootGuid;
@@ -143,6 +148,12 @@ namespace OdinFMOD
 		[Sirenix.OdinInspector.OnInspectorGUI]
 		protected void DrawGUI()
 		{
+			if (!m_isConnected)
+			{
+				SirenixEditorGUI.MessageBox("FMOD Studio not running", MessageType.Warning);
+				return;
+			}
+
 		 	GUIHelper.PushGUIEnabled(!string.IsNullOrWhiteSpace(m_name));
 			
 			if (GUILayout.Button("Create event"))
