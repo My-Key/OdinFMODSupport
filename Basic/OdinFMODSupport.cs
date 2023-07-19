@@ -3,7 +3,7 @@ using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.Drawers;
 using UnityEngine;
 
-/*public class FMODEventDrawer : DrawWithUnityBaseDrawer<EventReference>
+public class FMODEventDrawer : DrawWithUnityBaseDrawer<EventReference>
 {
 	private bool m_init;
 	
@@ -41,9 +41,9 @@ using UnityEngine;
 				valueEntry.Values[index] = ((EmittedScriptableObject<T>)targetObjects[index]).GetValue();
 		}
 	}
-}*/
+}
 
-/*public abstract class RefAttributeDrawerBase<T> : OdinAttributeDrawer<T, string> where T : System.Attribute
+public abstract class RefAttributeDrawerBase<T> : OdinAttributeDrawer<T, string> where T : System.Attribute
 {
 	private bool m_init;
 	
@@ -69,4 +69,4 @@ public class ParamRefOdinDrawer : RefAttributeDrawerBase<ParamRefAttribute> { }
 public class BankRefDrawer : RefAttributeDrawerBase<BankRefAttribute> { }
 
 [DrawerPriority(DrawerPriorityLevel.SuperPriority)]
-public class EventRefDrawer : RefAttributeDrawerBase<EventRefAttribute> { }*/
+public class EventRefDrawer : RefAttributeDrawerBase<EventRefAttribute> { }
