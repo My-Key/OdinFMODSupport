@@ -23,7 +23,7 @@ namespace OdinFMOD
 					{
 						result.AddError(
 								$"GUID doesn't match path. {PATH}")
-							.WithFix(FixGUIDMismatch)
+							.WithFix(Fix.Create("Fix GUID", FixGuidMismatch))
 							.WithContextClick("Fix GUID", FixGUIDMismatch);
 					}
 				}
@@ -33,7 +33,7 @@ namespace OdinFMOD
 					{
 						result.AddError(
 								$"Path doesn't match GUID. {PATH}")
-							.WithFix(FixPathMismatch)
+							.WithFix(Fix.Create("Fix Path", FixPathMismatch))
 							.WithContextClick("Fix Path", FixPathMismatch);
 					}
 				}
@@ -46,7 +46,7 @@ namespace OdinFMOD
 				{
 					result.AddError(
 							$"Moved to {renamedEvent.Path}. {PATH}")
-						.WithFix(FixRename)
+						.WithFix(Fix.Create("Fix rename", FixRename))
 						.WithContextClick("Fix rename", FixRename);
 				}
 				else
