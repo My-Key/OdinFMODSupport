@@ -56,7 +56,7 @@ public abstract class RefAttributeDrawerBase<T> : OdinAttributeDrawer<T, string>
 
 	protected override void DrawPropertyLayout(GUIContent label)
 	{
-		// FMODEventDrawer.UpdateValuesAfterExternalChange(ref m_init, Property, ValueEntry);
+		FMODEventDrawer.UpdateValuesAfterExternalChange(ref m_init, Property, ValueEntry);
 
 		CallNextDrawer(label);
 	}
