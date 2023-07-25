@@ -10,7 +10,7 @@ using GUID = FMOD.GUID;
 
 namespace OdinFMOD
 {
-	public class OdinEventReferenceDrawer : OdinValueDrawer<EventReference>
+	public class OdinEventReferenceDrawer : OdinValueDrawer<EventReference>, IDefinesGenericMenuItems
 	{
 		public static readonly Texture BROWSE_ICON = EditorUtils.LoadImage("SearchIconBlack.png");
 		private static readonly Texture OPEN_ICON = EditorUtils.LoadImage("BrowserIcon.png");
@@ -30,11 +30,15 @@ namespace OdinFMOD
 
 		private InspectorProperty m_path;
 
+		private bool m_isOdinValidatorIsInstalled;
+
 		protected override void Initialize()
 		{
 			InitStyles();
 
 			m_path = Property.Children["Path"];
+			
+			m_isOdinValidatorIsInstalled = AssemblyUtilities.GetTypeByCachedFullName("Sirenix.OdinValidator.Editor.OdinValidatorWindow") != null;
 		}
 
 		public static void InitStyles()
@@ -172,7 +176,7 @@ namespace OdinFMOD
 				eventCreator.ShowInPopup();
 				eventCreator.OnEventCreated += EventCreated;
 			}
-			
+
 			SirenixEditorGUI.EndIndentedHorizontal();
 			
 			EditorGUILayout.EndHorizontal();
@@ -264,5 +268,41 @@ namespace OdinFMOD
 				return EventManager.EventFromGUID(eventReference.Guid);
 			}
 		}
+
+		public void PopulateGenericMenu(InspectorProperty property, GenericMenu genericMenu)
+		{
+			if (m_isOdinValidatorIsInstalled)
+				return;
+
+			var editorEventRef = GetEditorEventRef(ValueEntry.SmartValue);
+			var eventReference = ValueEntry.SmartValue;
+
+			if (editorEventRef != null)
+			{
+				if (EventManager.GetEventLinkage(eventReference) == EventLinkage.Path)
+				{
+					if (eventReference.Guid != editorEventRef.Guid)
+						genericMenu.AddItem(new GUIContent("Fix GUID"), false, FixGUIDMismatch);
+				}
+				else // EventLinkage.GUID
+				{
+					if (eventReference.Path != editorEventRef.Path)
+						genericMenu.AddItem(new GUIContent("Fix Path"), false, FixPathMismatch);
+				}
+			}
+			else
+			{
+				EditorEventRef renamedEvent = EventReferenceValidator.GetRenamedEventRef(ValueEntry.SmartValue);
+
+				if (renamedEvent != null) 
+					genericMenu.AddItem(new GUIContent("Fix rename"), false, FixRename);
+			}
+		}
+
+		private void FixRename() => EventReferenceValidator.FixRename(ValueEntry);
+
+		private void FixGUIDMismatch() => EventReferenceValidator.FixGUIDMismatch(ValueEntry);
+
+		private void FixPathMismatch() => EventReferenceValidator.FixPathMismatch(ValueEntry);
 	}
 }

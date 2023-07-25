@@ -1,5 +1,6 @@
 ﻿using FMODUnity;
 using OdinFMOD;
+using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector.Editor.Validation;
 
 [assembly: RegisterValidator(typeof(EventReferenceValidator))]
@@ -23,7 +24,7 @@ namespace OdinFMOD
 					{
 						result.AddError(
 								$"GUID doesn't match path. {PATH}")
-							.WithFix(Fix.Create("Fix GUID", FixGuidMismatch))
+							.WithFix(Fix.Create("Fix GUID", FixGUIDMismatch))
 							.WithContextClick("Fix GUID", FixGUIDMismatch);
 					}
 				}
@@ -54,7 +55,7 @@ namespace OdinFMOD
 			}
 		}
 		
-		private static EditorEventRef GetRenamedEventRef(EventReference eventReference)
+		public static EditorEventRef GetRenamedEventRef(EventReference eventReference)
 		{
 			if (Settings.Instance.EventLinkage != EventLinkage.Path || eventReference.Guid.IsNull)
 				return null;
@@ -64,28 +65,34 @@ namespace OdinFMOD
 			return editorEventRef != null && editorEventRef.Path != eventReference.Path ? editorEventRef : null;
 		}
 
-		private void FixRename()
+		private void FixRename() => FixRename(ValueEntry);
+
+		public static void FixRename(IPropertyValueEntry<EventReference> valueEntry)
 		{
-			EditorEventRef renamedEvent = GetRenamedEventRef(Value);
-			var val = ValueEntry.SmartValue;
+			EditorEventRef renamedEvent = GetRenamedEventRef(valueEntry.SmartValue);
+			var val = valueEntry.SmartValue;
 			val.Path = renamedEvent.Path;
-			ValueEntry.SmartValue = val;
-		}
-		
-		private void FixGUIDMismatch()
-		{
-			var editorEventRef = OdinEventReferenceDrawer.GetEditorEventRef(Value);
-			var val = ValueEntry.SmartValue;
-			val.Guid = editorEventRef.Guid;
-			ValueEntry.SmartValue = val;
+			valueEntry.SmartValue = val;
 		}
 
-		private void FixPathMismatch()
+		private void FixGUIDMismatch() => FixGUIDMismatch(ValueEntry);
+
+		public static void FixGUIDMismatch(IPropertyValueEntry<EventReference> valueEntry)
 		{
-			var editorEventRef = OdinEventReferenceDrawer.GetEditorEventRef(Value);
-			var val = ValueEntry.SmartValue;
+			var editorEventRef = OdinEventReferenceDrawer.GetEditorEventRef(valueEntry.SmartValue);
+			var val = valueEntry.SmartValue;
+			val.Guid = editorEventRef.Guid;
+			valueEntry.SmartValue = val;
+		}
+
+		private void FixPathMismatch() => FixPathMismatch(ValueEntry);
+
+		public static void FixPathMismatch(IPropertyValueEntry<EventReference> valueEntry)
+		{
+			var editorEventRef = OdinEventReferenceDrawer.GetEditorEventRef(valueEntry.SmartValue);
+			var val = valueEntry.SmartValue;
 			val.Path = editorEventRef.Path;
-			ValueEntry.SmartValue = val;
+			valueEntry.SmartValue = val;
 		}
 	}
 }
